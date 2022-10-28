@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">UpdatingLanguageDynamically</string>
+    <string name="mydownloads">My Downloads</string>
+    <string name="title_activity_gklist">Title</string>
+    <string name="general_instructions">General Instructions</string>
+    <string name="current_affairs">Current Affairs</string>
+    <string name="title_activity_alertlist">Job Alerts</string>
+    <string name="settings">Settings</string>
+    <string name="download">Download</string>
+    <string name="magazine">Magazine</string>
+</resources>
