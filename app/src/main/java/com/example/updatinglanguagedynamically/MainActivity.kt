@@ -1,18 +1,21 @@
 package com.example.updatinglanguagedynamically
 
-import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.JsonReader
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatButton
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.gson.Gson
+import com.google.gson.JsonParser
 import dev.b3nedikt.restring.Restring
 import dev.b3nedikt.reword.Reword.reword
+import org.json.JSONObject
+import java.io.BufferedReader
 import java.io.IOException
-import java.nio.charset.StandardCharsets
+import java.io.InputStreamReader
 import java.util.*
-import kotlin.collections.HashMap
 
 class MainActivity : BaseActivity() {
 
@@ -95,18 +98,20 @@ class MainActivity : BaseActivity() {
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun getLocalStringJsonHashmap(language: String): HashMap<String, String> {
-        val listTypeJson: HashMap<String, String> = HashMap()
+        var listTypeJson: HashMap<String, String> = HashMap()
         try {
             applicationContext.assets.open("$language.json").use { inputStream ->
-                val size: Int = inputStream.available()
-                val buffer = ByteArray(size)
-                inputStream.read(buffer)
-                val jsonString = String(buffer, StandardCharsets.UTF_8)
-                JsonHelper().getFlattenedHashmapFromJsonForLocalization(
-                    "",
-                    ObjectMapper().readTree(jsonString),
-                    listTypeJson
-                )
+
+                val streamReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
+                val responseStrBuilder = StringBuilder()
+
+                var inputStr: String?
+                while (streamReader.readLine().also { inputStr = it } != null)
+                    responseStrBuilder.append(inputStr)
+
+                val jsonObject = JSONObject(responseStrBuilder.toString())
+
+                listTypeJson = Gson().fromJson(jsonObject.toString(), java.util.HashMap::class.java) as HashMap<String, String>
             }
         } catch (exception: IOException) {
         }
