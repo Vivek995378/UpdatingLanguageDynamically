@@ -37,22 +37,34 @@ class MainActivity : BaseActivity() {
         btnHindi = findViewById(R.id.btn_hindi)
         btnPunjabi = findViewById(R.id.btn_punjabi)
 
-        configureLocales()
+        //configureLocales()
 
         btnEnglish.setOnClickListener {
-            writeToEnglishFile("en.json")
+            val file = File("/data/data/com.example.updatinglanguagedynamically/files", "en.json")
+            if (!file.exists()){
+                writeToEnglishFile("en.json")
+            }
+            englishLocale = Locale("en")
             updateStringsHashmap("en")
             updateAppLanguage("en")
         }
 
         btnHindi.setOnClickListener {
-            writeToHindiFile("hi.json")
+            val file = File("/data/data/com.example.updatinglanguagedynamically/files", "hi.json")
+            if (!file.exists()){
+                writeToHindiFile("hi.json")
+            }
+            hindiLocale = Locale("hi")
             updateStringsHashmap("hi")
             updateAppLanguage("hi")
         }
 
         btnPunjabi.setOnClickListener {
-            writeToPunjabiFile("pun.json")
+            val file = File("/data/data/com.example.updatinglanguagedynamically/files", "pun.json")
+            if (!file.exists()){
+                writeToHindiFile("pun.json")
+            }
+            punjabiLocale = Locale("pun")
             updateStringsHashmap("pun")
             updateAppLanguage("pun")
         }
